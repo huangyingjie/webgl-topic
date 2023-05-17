@@ -1,0 +1,57 @@
+{
+  "name": "my-vue-app",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite-ssg build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@swc/core-darwin-x64": "^1.2.210",
+    "babel-plugin-transform-gl-matrix": "^0.6.0",
+    "bluebird": "^3.7.2",
+    "geohash": "^0.0.1",
+    "gl-matrix": "^3.4.3",
+    "regl": "^2.1.0",
+    "tailwindcss": "^3.1.2",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "3d-tiles-renderer": "^0.3.16",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "@react-three/fiber": "^8.0.27",
+    "@rollup/plugin-alias": "^4.0.3",
+    "@vitejs/plugin-legacy": "^1.8.2",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vueuse/head": "^0.9.7",
+    "autoprefixer": "^10.4.7",
+    "bitmap-sdf": "^1.0.4",
+    "cesium": "^1.95.0",
+    "delaunator": "^5.0.0",
+    "earcut": "^2.2.3",
+    "libtess": "^1.2.2",
+    "mitt": "^3.0.0",
+    "pbf": "^3.2.1",
+    "pinia": "^2.0.14",
+    "postcss": "^8.4.14",
+    "rbush": "^3.0.1",
+    "react": "18.0",
+    "react-dom": "18.0",
+    "rollup": "^2.25.0",
+    "stats.js": "^0.17.0",
+    "three": "^0.141.0",
+    "twgl.js": "^4.22.1",
+    "vite": "^2.9.9",
+    "vite-plugin-cesium": "^1.2.19",
+    "vite-plugin-glsl": "^0.1.2",
+    "vite-plugin-top-level-await": "^1.0.1",
+    "vite-plugin-wasm": "^1.0.1",
+    "vite-ssg": "^0.21.1",
+    "vue-router": "^4.1.5"
+  },
+  "browsers": [
+    "ie >=8",
+    "iOS >= 8"
+  ]
+}
