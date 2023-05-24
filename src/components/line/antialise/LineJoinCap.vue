@@ -28,7 +28,7 @@
     return result;
   };
   const path = [[0, 210], [200, 200], [400, 400], [600, 200], [800, 210], [700, 300]];
-  //const path = [[0, 450], [200, 200],];
+  //const path = [[0, 200], [200, 200],];
 </script>
 <script>
 import vertexShaderSource from './LineJoinCap.vert.glsl';

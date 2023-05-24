@@ -3,6 +3,8 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import { ref, reactive } from 'vue'
 import LineJoinCap from './components/line/antialise/LineJoinCap.vue'
+import CubeShadow from './components/shadow/CubeShadow.vue'
+import SDF from './components/glyph/sdf.vue'
 </script>
 <script>
   export default { }
@@ -10,7 +12,7 @@ import LineJoinCap from './components/line/antialise/LineJoinCap.vue'
 </script>
 
 <template>
-  <LineJoinCap />
+  <CubeShadow />
 </template>
 
 <style>
