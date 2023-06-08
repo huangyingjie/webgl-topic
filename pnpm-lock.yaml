@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   3d-tiles-renderer: ^0.3.16
+  '@mapbox/tiny-sdf': ^2.0.6
   '@originjs/vite-plugin-commonjs': ^1.0.3
   '@react-three/fiber': ^8.0.27
   '@rollup/plugin-alias': ^4.0.3
@@ -53,6 +54,7 @@ dependencies:
 
 devDependencies:
   3d-tiles-renderer: registry.npmmirror.com/3d-tiles-renderer/0.3.16_three@0.141.0
+  '@mapbox/tiny-sdf': registry.npmmirror.com/@mapbox/tiny-sdf/2.0.6
   '@originjs/vite-plugin-commonjs': registry.npmmirror.com/@originjs/vite-plugin-commonjs/1.0.3
   '@react-three/fiber': registry.npmmirror.com/@react-three/fiber/8.0.27_1088025b83103994a8614cb19de53c8d
   '@rollup/plugin-alias': registry.npmmirror.com/@rollup/plugin-alias/4.0.3_rollup@2.75.4
@@ -119,6 +121,12 @@ packages:
     name: '@babel/standalone'
     version: 7.18.4
     engines: {node: '>=6.9.0'}
+    dev: true
+
+  registry.npmmirror.com/@mapbox/tiny-sdf/2.0.6:
+    resolution: {integrity: sha512-qMqa27TLw+ZQz5Jk+RcwZGH7BQf5G/TrutJhspsca/3SHwmgKQ1iq+d3Jxz5oysPVYTGP6aXxCo5Lk9Er6YBAA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mapbox/tiny-sdf/-/tiny-sdf-2.0.6.tgz}
+    name: '@mapbox/tiny-sdf'
+    version: 2.0.6
     dev: true
 
   registry.npmmirror.com/@nodelib/fs.scandir/2.1.5:

@@ -12,7 +12,7 @@ import SDF from './components/glyph/sdf.vue'
 </script>
 
 <template>
-  <CubeShadow />
+  <SDF />
 </template>
 
 <style>
