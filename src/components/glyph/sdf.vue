@@ -1,20 +1,3 @@
-<script setup>
-  function loadTexture(gl, texture, image, u_Sampler, canvas) {
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // 翻转Y轴
-    // 默认绑定0号，所以可以不写
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    // 配置纹理参数
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    // 配置纹理对象
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    // 将0号纹理传给取样器变量
-    gl.uniform1i(u_Sampler, 0);
-  }
-  const gl = null;
-</script>
 <script>
   import Pbf from "pbf";
   import TinySDF from '@mapbox/tiny-sdf';
@@ -66,6 +49,20 @@
       }
     },
     methods: {
+      loadTexture(gl, texture, image, u_Sampler, canvas) {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // 翻转Y轴
+        // 默认绑定0号，所以可以不写
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        // 配置纹理参数
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        // 配置纹理对象
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        // 将0号纹理传给取样器变量
+        gl.uniform1i(u_Sampler, 0);
+      },
       getGlyphByTinyGlyph(letter, SDF_SCALE) {
         const fontFamily = this.fontFamily;
         const fontSize = 24 * SDF_SCALE; // 放大fontSize，提高文字顶点数量
