@@ -16,6 +16,7 @@
         domFontTop: 113,
         domFontLeft: 411,
         fontSize: 96,
+        SDF_SCALE: 2,
         fontFamily: 'Source Han Sans CN Normal',
         baselineAdjustment: 28.5,
         glyphType: 1,
@@ -24,26 +25,29 @@
       };
     },
     watch: {
-      async baselineAdjustment() {
+      async SDF_SCALE() {
         if (!this.letter) {
           return;
         }
-        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter, 2);
+        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter);
         this.drawScene();
       },
       async letter() {
         if (!this.letter) {
           return;
         }
-        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter, 2);
+        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter);
         this.remoteGlyphs = await this.getGlyph(this.letter);
         this.drawScene();
       },
       async fontFamily() {
+        if (!this.letter) {
+          return;
+        }
         if (this.fontFamily != 'Source Han Sans CN Normal') {
           this.glyphType = 1;
         }
-        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter, 2);
+        this.localGlyphs = await this.getGlyphByTinyGlyph(this.letter);
         this.remoteGlyphs = await this.getGlyph(this.letter);
         this.drawScene();
       }
@@ -63,14 +67,13 @@
         // 将0号纹理传给取样器变量
         gl.uniform1i(u_Sampler, 0);
       },
-      getGlyphByTinyGlyph(letter, SDF_SCALE) {
-        const fontFamily = this.fontFamily;
+      getGlyphByTinyGlyph(letter) {
+        const { baselineAdjustment, fontFamily, SDF_SCALE } = this;
         const fontSize = 24 * SDF_SCALE; // 放大fontSize，提高文字顶点数量
         const radius = 8 * SDF_SCALE; // 文字边缘圆润程度
         const buffer = 3 * SDF_SCALE;
 
         const tinySDF = new TinySDF({fontFamily, fontSize, buffer, radius});
-        const { baselineAdjustment } = this;
         const glyphs = letter.split('').map(char => ({ id: char.charCodeAt(0), glyph: tinySDF.draw(char) })).map(({id, glyph}) => {
           const {
             data, width, height, glyphWidth, glyphHeight, glyphLeft, glyphTop, glyphAdvance
@@ -123,7 +126,6 @@
         if (!this.letter) {
           return;
         }
-        const SDF_SCALE = this.glyphType == 1 ? window.devicePixelRatio : 1;
         let glyphs = null;
         if (this.glyphType == 1) {
           glyphs = this.localGlyphs;
@@ -131,6 +133,7 @@
           glyphs = this.remoteGlyphs;
         }
         const glyph = glyphs[0];
+        const SDF_SCALE = this.glyphType == 1 ? this.SDF_SCALE : 1;
         const rs = this.createImage(glyph, SDF_SCALE);
 
         const u_Sampler = gl.getUniformLocation(program, 'u_sampler2D');
@@ -189,7 +192,7 @@
       gl.useProgram(this.program);
 
       const letter = '家';
-      this.localGlyphs = await this.getGlyphByTinyGlyph(letter, 2);
+      this.localGlyphs = await this.getGlyphByTinyGlyph(letter);
       this.remoteGlyphs = await this.getGlyph(letter);
       this.drawScene();
     },
@@ -210,8 +213,9 @@
         本例默认以<a href="https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip" target="blank" >思源黑体</a>演示，需提前安装
       </p>
       <div>
-      <input type="range" style="width:300px" step="0.01" min="0.1" max="1" id="buffer" v-model="u_buffer" @input="drawScene" /> Buffer: {{u_buffer}}
-      <input type="range" style="width:300px" v-model="fontSize" step="1" min="12" max="200" id="fontSize" @input="drawScene" /> fontSize: {{fontSize}}px
+        <input type="range" style="width:300px" step="0.01" min="0.1" max="1" id="buffer" v-model="u_buffer" @input="drawScene" /> u_buffer: {{u_buffer}}
+        <input type="range" style="width:300px" v-model="fontSize" step="1" min="12" max="200" id="fontSize" @input="drawScene" /> fontSize: {{fontSize}}px
+        <input type="range" style="width:300px" v-model="SDF_SCALE" step="1" min="1" max="8" /> SDF_SCALE: {{SDF_SCALE}}
       </div>
       <p>
       <input type="checkbox" id="showDomText" v-model="showDomText" true-value="1" false-value="0"  />
@@ -227,12 +231,6 @@
         <label for="one"> 本地字体 </label>
         <input type="radio" :disabled="fontFamily !=='Source Han Sans CN Normal'" id="two" value="2" v-model.number="glyphType" @change="drawScene" />
         <label for="two">远程字体(当前只支持思源黑体)</label>
-      </div>
-      <div>
-        <p>
-        本地/远程top对齐存在差异，需减去一个常量调和:
-        </p>
-        <input type="range" style="width:300px" v-model="baselineAdjustment" step="0.5" min="26" max="30" /> {{baselineAdjustment}}
       </div>
       <div>
         <p>
