@@ -8,7 +8,7 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), glsl(), viteCommonjs(), alias()],
-  base: '/webgltopic',
+  base: process.env.NODE_ENV === 'production' ? '/webgltopic' : '',
   resolve: {
     alias: {
       "@": resolve(resolve(__dirname), "src"),
