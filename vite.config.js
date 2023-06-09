@@ -9,6 +9,15 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 export default defineConfig({
   plugins: [vue(), glsl(), viteCommonjs(), alias()],
   base: process.env.NODE_ENV === 'production' ? '/webgltopic' : '',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          elementplus: [ 'element-plus' ]
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       "@": resolve(resolve(__dirname), "src"),

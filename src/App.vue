@@ -10,9 +10,11 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+
 </script>
 <script>
   export default {
+    methods: {},
     mounted() {
       this.activeTab = location.href.split('/').at(-1) || '1-1';
     }
@@ -34,24 +36,18 @@ import {
         <el-menu
           :collapse="isCollapse"
           :default-active="activeTab"
+          :router="true"
         >
           <el-sub-menu index="1">
             <template #title>
               <el-icon><location /></el-icon>
               <span>文字渲染</span>
             </template>
-            <el-menu-item-group title="SDF渲染">
-              <el-menu-item index="1-1">
-                <router-link to="/sdf">单文字渲染</router-link>
-              </el-menu-item>
-              <el-menu-item index="1-2">item two</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group Two">
-              <el-menu-item index="1-3">item three</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title>item four</template>
-              <el-menu-item index="1-4-1">item one</el-menu-item>
+            <el-menu-item index="sdf"> SDF渲染 </el-menu-item>
+            <el-menu-item index="glyph-texture">贴图渲染</el-menu-item>
+            <el-sub-menu index="shadows">
+              <template #title>阴影</template>
+              <el-menu-item index="cubeshadow">深度阴影 </el-menu-item>
             </el-sub-menu>
           </el-sub-menu>
         </el-menu>
