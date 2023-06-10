@@ -41,13 +41,17 @@ import {
           <el-sub-menu index="1">
             <template #title>
               <el-icon><location /></el-icon>
-              <span>文字渲染</span>
+              <span>文字</span>
             </template>
             <el-menu-item index="sdf"> SDF渲染 </el-menu-item>
             <el-menu-item index="glyph-texture">贴图渲染</el-menu-item>
             <el-sub-menu index="shadows">
               <template #title>阴影</template>
-              <el-menu-item index="cubeshadow">深度阴影 </el-menu-item>
+              <el-menu-item index="cubeshadow">阴影映射</el-menu-item>
+            </el-sub-menu>
+            <el-sub-menu index="shadows">
+              <template #title>线段</template>
+              <el-menu-item index="LineJoinCap">全GPU计算 </el-menu-item>
             </el-sub-menu>
           </el-sub-menu>
         </el-menu>

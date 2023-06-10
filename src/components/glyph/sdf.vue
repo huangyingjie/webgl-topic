@@ -1,3 +1,6 @@
+<script setup>
+import Desc from '@/components/Desc.vue';
+</script>
 <script>
   import Pbf from "pbf";
   import TinySDF from '@mapbox/tiny-sdf';
@@ -207,6 +210,10 @@
       <div class="fonts" v-show="showDomText == 1" :style="{top: domFontTop + 'px', left: domFontLeft + 'px', fontSize: fontSize + 'px', fontFamily: fontFamily}">
         {{letter}}
       </div>
+      <Desc sourceUrl="/glyph/sdf.vue">
+      基于SDF(Signed-Distance-Field)绘制文字，可调整各类参数，其中：u_buffer代表文字内外的边界位置，默认0.75。
+      SDF_SCALE代表绘制本地SDF数据时，文字、预留border的缩放比例，默认为2倍，即dpr;
+      </Desc>
     </div>
     <div class="btns">
       <p>

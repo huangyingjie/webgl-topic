@@ -1,32 +1,5 @@
 <script setup>
-  function resize(canvas) {
-    canvas.width = Math.floor(canvas.clientWidth * window.devicePixelRatio);
-    canvas.height = Math.floor(canvas.clientHeight * window.devicePixelRatio);
-  }
-  function initArrayBuffer(gl, program, data, size, attribute) {
-    const buffer = gl.createBuffer();
-    if (!buffer) {
-      return false;
-    }
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-    const attributeLocation = gl.getAttribLocation(program, attribute);
-    gl.enableVertexAttribArray(attributeLocation);
-    gl.vertexAttribPointer(attributeLocation, size, gl.FLOAT, false, 0, 0);
-    return attributeLocation;
-  }
-  const getCircleDir = (n) => {
-    const result = [];
-    for (let i = 1; i <= n + 1; i++) {
-      result.push([0, 0]);
-      result.push([i, 0]);
-      result.push([i + 1, 0]);
-    }
-    result.push([0, 0]);
-    result.push([n + 2, 0]);
-    result.push([1, 0]);
-    return result;
-  };
+  import Desc from '@/components/Desc.vue';
   const path = [[0, 210], [200, 200], [400, 400], [600, 200], [800, 210], [700, 300]];
   //const path = [[0, 200], [200, 200],];
 </script>
@@ -48,6 +21,30 @@ const JOIN_BEVEL = 1;
 const JOIN_MITER = 2;
 export default {
   methods: {
+    initArrayBuffer(gl, program, data, size, attribute) {
+      const buffer = gl.createBuffer();
+      if (!buffer) {
+        return false;
+      }
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+      const attributeLocation = gl.getAttribLocation(program, attribute);
+      gl.enableVertexAttribArray(attributeLocation);
+      gl.vertexAttribPointer(attributeLocation, size, gl.FLOAT, false, 0, 0);
+      return attributeLocation;
+    },
+    getCircleDir(n) {
+      const result = [];
+      for (let i = 1; i <= n + 1; i++) {
+        result.push([0, 0]);
+        result.push([i, 0]);
+        result.push([i + 1, 0]);
+      }
+      result.push([0, 0]);
+      result.push([n + 2, 0]);
+      result.push([1, 0]);
+      return result;
+    },
     getCapDir(capType) {
       const { path, getCircleDir } = this;
       const vertices = [];
@@ -102,7 +99,7 @@ export default {
     }
 
     const instanceExt = gl.getExtension('ANGLE_instanced_arrays');
-    this.resize(container);
+    twgl.resizeCanvasToDisplaySize(gl.canvas, window.devicePixelRatio)
     //gl.clearColor(1.0, 1.0, 1.0, 1.0);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.viewport(0, 0, container.width, container.height);
@@ -204,7 +201,11 @@ export default {
     }
     var stats = new Stats();
     stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( stats.dom );
+    this.$refs.stats.appendChild( stats.dom );
+    stats.dom.style.position = 'absolute';
+    stats.dom.style.left = '';
+    stats.dom.style.right = '0';
+    this.statsDom = stats.dom;
     drawScene(gl);
   }
 }
@@ -213,12 +214,28 @@ export default {
 <template>
   <div id="ctn">
     <canvas ref="container"></canvas>
+    <Desc sourceUrl="/line/antialise/LineJoinCap.vue">
+      WebGL绘制线段，采用矩形来模拟。本案例具备以下特性：
+      <p>
+      只有一次DrawCall、linecap/linejoin计算全部在GPU进行、线段宽度恒定不变、没有discard语句、支持抗锯齿。
+      </p>
+      <p>
+      优势：主流绘制方式，如<el-link href="https://wwwtyro.net/2019/11/18/instanced-lines.html">instanced-lines</el-link>，如果利用GPU渲染，至少采用2次drawcall，而一次drawcall的又必须在CPU计算，难以兼顾。
+      与此同时，再加上抗锯齿需求，则更加复杂，各家均未考虑，只是启用浏览器抗锯齿而已。
+      </p>
+      <p>
+      <el-link type="success" href="https://zhuanlan.zhihu.com/p/623520101" target="_blank">说明文档：绘制线段</el-link>
+      </p>
+      <p>
+      <el-link type="success" href="https://zhuanlan.zhihu.com/p/629892061" target="_blank">说明文档：线段抗锯齿</el-link>
+      </p>
+    </Desc>
+    <div id="stats" ref="stats"></div>
   </div>
 </template>
 <style scoped>
 #ctn {
   position:relative;
-  left: 100px;
 }
 canvas {
   width: 800px;
